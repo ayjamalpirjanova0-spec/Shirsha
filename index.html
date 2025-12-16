@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title> SHırsha bezew oyını</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #0a2540, #0f5132);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
+.snow{position: fixed; top: -10px; color: white; animation: fall linear infinite;}
+@keyframes fall{to{ transform: translateY(100vh); }}
+
+.trees{display: flex; justify-content: space-around; margin-top: 20px;}
+.tree{width: 40%;}
+.pine{background: #1b5e20; padding: 15px; border-radius: 20px; display: inline-block;}
+.star{font-size: 30px; color: gold;}
+.row{display: flex; justify-content: center;}
+.ball{width: 25px; height: 25px; border-radius: 50%; background: gray; margin: 6px; transition: 0.3s;}
+.quiz{display:flex; justify-content:space-around; background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; width: 80%; margin: 20px auto;}
+button{padding: 10px 20px; margin: 5px; font-size: 16px; border: none; border-radius: 12px; cursor: pointer; background: gold; color: black; font-weight: bold;}
+button:hover{background: orange;}
+.group-quiz{width:45%;}
+</style>
+</head>
+<body>
+
+<h1>🎄 Shırsha bezew oyını 🎄</h1>
+
+<div class="trees">
+<div class="tree">
+<h2>1-topar</h2>
+<div class="pine" id="tree1">
+<div class="star">⭐</div>
+<div class="row"><div class="ball"></div></div>
+<div class="row"><div class="ball"></div><div class="ball"></div></div>
+<div class="row"><div class="ball"></div><div class="ball"></div><div class="ball"></div></div>
+<div class="row"><div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div></div>
+</div>
+</div>
+
+<div class="tree">
+<h2>2-topar</h2>
+<div class="pine" id="tree2">
+<div class="star">⭐</div>
+<div class="row"><div class="ball"></div></div>
+<div class="row"><div class="ball"></div><div class="ball"></div></div>
+<div class="row"><div class="ball"></div><div class="ball"></div><div class="ball"></div></div>
+<div class="row"><div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div></div>
+</div>
+</div>
+</div>
+
+<div class="quiz">
+<div class="group-quiz">
+<h3 id="question1"></h3>
+<button onclick="answer(1,0)" id="a1"></button>
+<button onclick="answer(1,1)" id="b1"></button>
+</div>
+<div class="group-quiz">
+<h3 id="question2"></h3>
+<button onclick="answer(2,0)" id="a2"></button>
+<button onclick="answer(2,1)" id="b2"></button>
+</div>
+</div>
+
+<audio id="sound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
+
+<script>
+/* QOR */
+for(let i=0;i<50;i++){
+    let s=document.createElement("div");
+    s.className="snow";
+    s.innerHTML="❄";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=3+Math.random()*5+"s";
+    document.body.appendChild(s);
+}
+
+/* 1-guruh savollar */
+let questions1 = [
+{q:"1-guruh: Qaysı teg tekstti kishi paragrafqa jaylastıradı?",a:["<p>","<h1>"],c:0},
+{q:"1-guruh: <p> Qaysı biri tekstti qızıl reńge ózgertedi?",a:["color:red;","font-size:20px;"],c:0},
+{q:"1-guruh: <h1> Tekstti 30px ge ózgertiw ushın ne qılıw kerek?",a:["font-size:30px;","font-color:blue;"],c:0},
+{q:"1-guruh: <span> bilan shriftni Arial qilish uchun?",a:["font-family:Arial;","color:green;"],c:0},
+{q:"1-guruh: <div> matnini markazlashtirish?",a:["text-align:center;","font-weight:bold;"],c:0},
+{q:"1-guruh: <p> matnini yashil qilish uchun?",a:["color:green;","font-size:16px;"],c:0},
+{q:"1-guruh: <h2> matnini qalin qilish?",a:["font-weight:bold;","text-align:left;"],c:0},
+{q:"1-guruh: <p> matnini 18px qilish?",a:["font-size:18px;","color:red;"],c:0},
+{q:"1-guruh: <span> shriftini Courier qilish?",a:["font-family:'Courier New';","text-decoration:underline;"],c:0},
+{q:"1-guruh: <div> ichidagi matnni chapga surish?",a:["text-align:left;","font-style:italic;"],c:0}
+];
+
+/* 2-guruh savollar */
+let questions2 = [
+{q:"2-guruh: <h1> matnini ko‘rsatish?",a:["<h1>","<p>"],c:0},
+{q:"2-guruh: <p> rangini ko‘k qilish uchun?",a:["color:blue;","font-size:20px;"],c:0},
+{q:"2-guruh: <h2> matnini 25px qilish?",a:["font-size:25px;","color:red;"],c:0},
+{q:"2-guruh: <span> shriftini Verdana qilish?",a:["font-family:Verdana;","text-align:center;"],c:0},
+{q:"2-guruh: <div> matnini markazlashtirish?",a:["text-align:center;","font-weight:bold;"],c:0},
+{q:"2-guruh: <p> matnini qizil qilish?",a:["color:red;","font-size:16px;"],c:0},
+{q:"2-guruh: <h2> matnini qalin qilish?",a:["font-weight:bold;","text-align:left;"],c:0},
+{q:"2-guruh: <p> matnini 20px qilish?",a:["font-size:20px;","color:green;"],c:0},
+{q:"2-guruh: <span> shriftini Tahoma qilish?",a:["font-family:Tahoma;","text-decoration:underline;"],c:0},
+{q:"2-guruh: <div> ichidagi matnni o‘ngga surish?",a:["text-align:right;","font-style:italic;"],c:0}
+];
+
+let index1=0,index2=0,score1=0,score2=0;
+let t1=document.querySelectorAll("#tree1 .ball");
+let t2=document.querySelectorAll("#tree2 .ball");
+
+function showQuestions(){
+    if(index1<questions1.length){
+        document.getElementById("question1").innerText = questions1[index1].q;
+        document.getElementById("a1").innerText = questions1[index1].a[0];
+        document.getElementById("b1").innerText = questions1[index1].a[1];
+    } else {
+        document.getElementById("question1").innerText = "Savollar tugadi!";
+        document.getElementById("a1").style.display="none";
+        document.getElementById("b1").style.display="none";
+    }
+    if(index2<questions2.length){
+        document.getElementById("question2").innerText = questions2[index2].q;
+        document.getElementById("a2").innerText = questions2[index2].a[0];
+        document.getElementById("b2").innerText = questions2[index2].a[1];
+    } else {
+        document.getElementById("question2").innerText = "Savollar tugadi!";
+        document.getElementById("a2").style.display="none";
+        document.getElementById("b2").style.display="none";
+    }
+}
+showQuestions();
+
+function answer(group,choice){
+    let q,idx,t;
+    if(group===1){ q=questions1[index1]; t=t1; }
+    else { q=questions2[index2]; t=t2; }
+
+    if(choice===q.c){
+        document.getElementById("sound").play();
+        if(group===1){ t[score1].style.background="gold"; score1++; if(score1===10){ alert("🎉 1-guruh yutdi!"); location.reload(); } }
+        else { t[score2].style.background="gold"; score2++; if(score2===10){ alert("🎉 2-guruh yutdi!"); location.reload(); } }
+    }
+
+    if(group===1) index1++;
+    else index2++;
+
+    showQuestions();
+}
+</script>
+</body>
+</html>
